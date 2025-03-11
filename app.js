@@ -1,19 +1,12 @@
 const express = require("express")
 const app = express();
-app.listen(3000, () => {
-    console.log("listening on 3000")
-})
 
-app.use(express.urlencoded({ extended: true }));   // 바디 파서 설정
-app.use(express.static("public"));
-app.set("view engine", "ejs");
+const port = 8080;
 
-let todos = []
 app.get("/", (req, res) => {
-    res.render("index", { todos: todos });
+    res.send("hi");    // 나중에 html 파일로 대체
 });
 
-app.post("/addTask", (req, res) => {
-    todos.push(req.body.add);
-    res.redirect("/");
-})
+app.listen(port, () => {
+    console.log(`http://localhost:${port}`)
+});
