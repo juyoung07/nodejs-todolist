@@ -1,12 +1,27 @@
-const express = require("express")
+const express = require("express");
+const path = require("path");
+const morgan = require("morgan");
+
+require('dotenv').config();
+
+const { sequelize } = require("./models");
 const app = express();
 
-const port = 8080;
+app.set("port", process.env.PORT);
 
-app.get("/", (req, res) => {
-    res.send("hi");    // 나중에 html 파일로 대체
-});
+sequelize.sync({ force: true })  // force: true -> 서버 실행 시마다 테이블 재생성
+    .then(() => {
+        console.log("Database connection success");
+    })
+    .catch((err) => {
+        console.error("Failed to connect database" + err);
+    });
 
-app.listen(port, () => {
-    console.log(`http://localhost:${port}`)
+app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.listen(app.get('port'), () => {
+    console.log(`http://localhost:${app.get('port')}`);
 });
