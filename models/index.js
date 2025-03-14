@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
+const { Sequelize } = require('sequelize');
+const env = 'development';
 const config = require('../config/config.js')[env];
 const db = {};
 
@@ -7,5 +7,12 @@ const db = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+// db 객체에 모델 추가
+db.Todo = require('./todos.js');
+
+// 모델 초기화
+db.Todo.init(sequelize);
 
 module.exports = db;
