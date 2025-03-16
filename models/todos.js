@@ -1,22 +1,22 @@
-const Sequelize = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
-class Todo extends Sequelize.Model {
+class Todo extends Model {
     static init(sequelize) {
         return super.init({
             // 시퀄라이즈는 기본적으로 id를 기본키로 연결하며 자동으로 생성
             content: {
-                type: Sequelize.STRING(200),
+                type: DataTypes.STRING(200),
                 allowNull: false,
             },
             is_completed: {
-                type: Sequelize.BOOLEAN,
+                type: DataTypes.BOOLEAN,
                 allowNull: false,
                 defaultValue: false
             },
             created_at: {
-                type: Sequelize.DATE,
+                type: DataTypes.DATE,
                 allowNull: false,
-                defaultValue: Sequelize.NOW
+                defaultValue: DataTypes.NOW
             }
         }, {
             sequelize,  // 연결 객체
@@ -30,5 +30,4 @@ class Todo extends Sequelize.Model {
         });
     }
 }
-
 module.exports = Todo;
