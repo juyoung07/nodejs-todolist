@@ -26,6 +26,11 @@ app.use(express.urlencoded({ extended: false }));
 // connect router
 app.use("/api", todosRouter);
 
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ message: '서버 오류 발생', error: err.message });
+});
+
 app.listen(app.get('port'), () => {
     console.log(`http://localhost:${app.get('port')}`);
 });
